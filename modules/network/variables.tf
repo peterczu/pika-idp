@@ -1,0 +1,36 @@
+
+variable "project_name" {
+  description = "Name of the project"
+  type        = string
+}
+
+variable "vpc_cidr" {
+  description = "CIDR block for the VPC"
+  type        = string
+}
+
+variable "public_subnet_a_cidr" {
+  description = "CIDR block for public subnet A"
+  type        = string
+}
+
+variable "public_subnet_b_cidr" {
+  description = "CIDR block for public subnet B"
+  type        = string
+}
+
+variable "availability_zone_a" {
+  description = "Availability Zone for subnet A"
+  type        = string
+}
+
+variable "availability_zone_b" {
+  description = "Availability Zone for subnet B"
+  type        = string
+}
+
+variable "tags" {
+  description = "Common resource tags"
+  type        = map(string)
+  default     = {}
+}

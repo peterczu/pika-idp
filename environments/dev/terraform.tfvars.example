@@ -1,0 +1,21 @@
+
+aws_region = "eu-north-1"
+
+project_name = "pika"
+environment  = "dev"
+owner        = "DevOps"
+
+vpc_cidr             = "10.10.0.0/16"
+public_subnet_a_cidr = "10.10.1.0/24"
+public_subnet_b_cidr = "10.10.2.0/24"
+
+availability_zone_a = "eu-north-1a"
+availability_zone_b = "eu-north-1b"
+
+allowed_ssh_cidr = "YOUR_HOME_PUBLIC_IP/32"
+
+instance_type = "t3.micro"
+
+key_name = "YOUR_EXISTING_AWS_KEY_PAIR"
+
+associate_public_ip = true
