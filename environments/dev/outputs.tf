@@ -14,6 +14,21 @@ output "public_subnet_b_id" {
   value       = module.network.public_subnet_b_id
 }
 
+output "private_subnet_a_id" {
+  description = "ID of private subnet A"
+  value       = module.network.private_subnet_a_id
+}
+
+output "private_subnet_b_id" {
+  description = "ID of private subnet B"
+  value       = module.network.private_subnet_b_id
+}
+
+output "private_route_table_id" {
+  description = "ID of the private route table"
+  value       = module.network.private_route_table_id
+}
+
 output "security_group_id" {
   description = "ID of the EC2 security group"
   value       = module.security_group.security_group_id
