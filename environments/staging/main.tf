@@ -54,3 +54,13 @@ module "ec2" {
 
   tags = local.common_tags
 }
+
+# ECR module
+module "ecr" {
+  source = "../../modules/ecr"
+
+  repository_name = "${var.project_name}-repo"
+
+  tags = local.common_tags
+}
+
