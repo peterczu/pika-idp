@@ -34,6 +34,20 @@ module "security_group" {
   tags = local.common_tags
 }
 
+
+# IDP2 Security Groups module
+module "security_groups" {
+  source = "../../modules/security-groups"
+
+  project_name   = var.project_name
+  vpc_id         = module.network.vpc_id
+  vpc_cidr_block = var.vpc_cidr
+  aws_region     = var.aws_region
+  container_port = var.container_port
+
+  tags = local.common_tags
+}
+
 # EC2 module
 module "ec2" {
   source = "../../modules/ec2"
@@ -64,3 +78,11 @@ module "ecr" {
   tags = local.common_tags
 }
 
+# ECS Cluster module
+module "ecs_cluster" {
+  source = "../../modules/ecs-cluster"
+
+  cluster_name = "${var.project_name}-cluster"
+
+  tags = local.common_tags
+}

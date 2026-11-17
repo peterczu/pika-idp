@@ -89,3 +89,9 @@ variable "associate_public_ip" {
   type        = bool
   default     = true
 }
+
+variable "container_port" {
+  description = "Port exposed by the Nginx application container"
+  type        = number
+  default     = 80
+}

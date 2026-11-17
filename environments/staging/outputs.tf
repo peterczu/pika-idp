@@ -68,3 +68,34 @@ output "ecr_registry_id" {
   description = "AWS account ID associated with the ECR registry"
   value       = module.ecr.registry_id
 }
+
+output "ecs_cluster_id" {
+  description = "ID of the ECS cluster"
+  value       = module.ecs_cluster.cluster_id
+}
+
+output "ecs_cluster_name" {
+  description = "Name of the ECS cluster"
+  value       = module.ecs_cluster.cluster_name
+}
+
+output "ecs_cluster_arn" {
+  description = "ARN of the ECS cluster"
+  value       = module.ecs_cluster.cluster_arn
+}
+
+output "alb_security_group_id" {
+  description = "Security group ID for the public Application Load Balancer"
+  value       = module.security_groups.alb_security_group_id
+}
+
+output "ecs_security_group_id" {
+  description = "Security group ID for ECS Fargate tasks"
+  value       = module.security_groups.ecs_security_group_id
+}
+
+output "vpc_endpoints_security_group_id" {
+  description = "Security group ID for interface VPC endpoints"
+  value       = module.security_groups.vpc_endpoints_security_group_id
+}
+
