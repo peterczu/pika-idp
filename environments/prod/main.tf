@@ -47,6 +47,29 @@ module "security_groups" {
   tags = local.common_tags
 }
 
+# Application Load Balancer module
+module "alb" {
+  source = "../../modules/alb"
+
+  alb_name          = "${var.project_name}-alb"
+  target_group_name = "${var.project_name}-tg"
+
+  vpc_id = module.network.vpc_id
+
+  public_subnet_ids = [
+    module.network.public_subnet_a_id,
+    module.network.public_subnet_b_id
+  ]
+
+  security_group_ids = [
+    module.security_groups.alb_security_group_id
+  ]
+
+  container_port    = var.container_port
+  health_check_path = "/"
+
+  tags = local.common_tags
+}
 
 # EC2 module
 module "ec2" {
@@ -83,6 +106,91 @@ module "ecs_cluster" {
   source = "../../modules/ecs-cluster"
 
   cluster_name = "${var.project_name}-cluster"
+
+  tags = local.common_tags
+}
+
+# CloudWatch Logs module
+module "cloudwatch_logs" {
+  source = "../../modules/cloudwatch-logs"
+
+  log_group_name = "/ecs/${var.project_name}"
+
+  tags = local.common_tags
+}
+
+# ECS Task Execution IAM Role
+module "iam" {
+  source = "../../modules/iam"
+
+  execution_role_name = "${var.project_name}-ecs-execution-role"
+
+  tags = local.common_tags
+}
+
+# ECS Task Definition module
+module "ecs_task_definition" {
+  source = "../../modules/ecs-task-definition"
+
+  family             = "${var.project_name}-task"
+  cpu                = var.container_cpu
+  memory             = var.container_memory
+  execution_role_arn = module.iam.execution_role_arn
+  container_name     = "${var.project_name}-app"
+  container_image    = "${module.ecr.repository_url}:${var.container_image_tag}"
+  container_port     = var.container_port
+  log_group_name     = module.cloudwatch_logs.log_group_name
+  aws_region         = var.aws_region
+
+  tags = local.common_tags
+}
+
+
+# ECS Service module
+module "ecs_service" {
+  source = "../../modules/ecs-service"
+
+  service_name        = "${var.project_name}-service"
+  cluster_arn         = module.ecs_cluster.cluster_arn
+  task_definition_arn = module.ecs_task_definition.task_definition_arn
+
+  private_subnet_ids = [
+    module.network.private_subnet_a_id,
+    module.network.private_subnet_b_id
+  ]
+
+  security_group_ids = [
+    module.security_groups.ecs_security_group_id
+  ]
+
+  target_group_arn = module.alb.target_group_arn
+  container_name   = "${var.project_name}-app"
+  container_port   = var.container_port
+
+  tags = local.common_tags
+}
+
+
+# VPC Endpoints module
+module "vpc_endpoints" {
+  source = "../../modules/vpc-endpoints"
+
+  project_name = var.project_name
+  vpc_id       = module.network.vpc_id
+  aws_region   = var.aws_region
+
+  private_subnet_ids = [
+    module.network.private_subnet_a_id,
+    module.network.private_subnet_b_id
+  ]
+
+  private_route_table_ids = [
+    module.network.private_route_table_id
+  ]
+
+  security_group_ids = [
+    module.security_groups.vpc_endpoints_security_group_id
+  ]
 
   tags = local.common_tags
 }

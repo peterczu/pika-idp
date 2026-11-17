@@ -95,3 +95,20 @@ variable "container_port" {
   type        = number
   default     = 80
 }
+
+variable "container_cpu" {
+  description = "Fargate task CPU units"
+  type        = string
+  default     = "256"
+}
+
+variable "container_memory" {
+  description = "Fargate task memory in MiB"
+  type        = string
+  default     = "512"
+}
+
+variable "container_image_tag" {
+  description = "Immutable version tag of the application image in ECR"
+  type        = string
+}
