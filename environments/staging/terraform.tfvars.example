@@ -1,6 +1,6 @@
 aws_region = "eu-north-1"
 
-project_name = "pika"
+project_name = "pika-staging"
 environment  = "staging"
 owner        = "DevOps"
 
