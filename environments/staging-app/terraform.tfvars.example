@@ -1,0 +1,13 @@
+aws_region = "eu-north-1"
+
+environment  = "staging"
+project_name = "pika-staging"
+
+# Replace with the actual S3 Terraform state bucket name.
+state_bucket = "REPLACE_WITH_STATE_BUCKET_NAME"
+
+# Normally supplied automatically by the GitHub Actions deployment workflow.
+container_image_tag = "REPLACE_WITH_IMAGE_TAG"
+
+container_cpu    = "256"
+container_memory = "512"
